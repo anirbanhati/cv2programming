@@ -1,0 +1,18 @@
+import cv2 as cv
+img=cv.imread('pics/lotus.jpg')
+gray=cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+cv.imshow('img',img)
+cv.imshow('gray',gray)
+blur=cv.GaussianBlur(img,(9,9),cv.BORDER_DEFAULT)
+cv.imshow('blur',blur)
+edge=cv.Canny(img,125,175)
+cv.imshow('edges',edge)
+dilate=cv.dilate(edge,(9,9),iterations=3)
+cv.imshow('dialet',dilate)
+erods=cv.erode(dilate,(9,9),iterations=3)
+cv.imshow('erods',erods)
+ri=cv.resize(img,(1000,800),interpolation=cv.INTER_CUBIC)
+cv.imshow('rsimg',ri)
+crop=img[350:550,450:650]
+cv.imshow('crop',crop)
+cv.waitKey(0)

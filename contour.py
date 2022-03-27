@@ -1,0 +1,23 @@
+import cv2 as cv
+import numpy as np
+img=cv.imread('pics/gnr.jpg')
+blank=np.ones((img.shape[0],img.shape[1],3),dtype='uint8')
+blank[0:250,250:500]=0,0,0
+gray=cv.cvtColor(img,cv.COLOR_BGR2GRAY)
+cv.imshow('gray',gray)
+edge=cv.Canny(img,50,75)
+cv.imshow('edge',edge)
+blur=cv.GaussianBlur(img,(5,5),cv.BORDER_DEFAULT)
+bluredge=cv.Canny(blur,50,75)
+cv.imshow('bluredge',bluredge)
+contours,hierarchy=cv.findContours(edge,cv.RETR_LIST,cv.CHAIN_APPROX_SIMPLE)
+contoursblur,hierarchy=cv.findContours(bluredge,cv.RETR_LIST,cv.CHAIN_APPROX_SIMPLE)
+print(len(contours))
+print(len(contoursblur))
+ret,thresh=cv.threshold(gray,100,125,cv.THRESH_BINARY)
+contoursthrs,hierarchy=cv.findContours(thresh,cv.RETR_LIST,cv.CHAIN_APPROX_SIMPLE)
+print(len(contoursthrs))
+cv.imshow('thresh',thresh)
+cv.drawContours(blank,contoursthrs,-1,(0,255,0),1)
+cv.imshow('drawnContours',blank)
+cv.waitKey(0)
